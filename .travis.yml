@@ -1,0 +1,18 @@
+language: go
+sudo: required
+go:
+  - tip
+  
+services:
+  - docker
+  
+script: 
+  - go test .
+  - export VERSION=`git describe --tag --long`
+  - echo VERSION is $VERSION
+  - CGO_ENABLED=0 GOOS=linux go build -a -ldflags "-X main.version=$VERSION" -o gowebhello gowebhello.go
+  - docker build -t wenism/gowebhello:$VERSION .
+  - docker images
+  - docker login -u="$DOCKER_USERNAME" -p="$DOCKER_PASSWORD"
+  - docker push wenism/gowebhello:$VERSION
+  - echo Done
