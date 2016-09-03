@@ -10,6 +10,7 @@ import (
 
 // This is injected at build time
 var version = "undefined"
+var goVersion = "undefined"
 
 // This is injected at runtime
 var environment = os.Getenv("ENVIRONMENT") 	
@@ -25,8 +26,9 @@ func handleIndex(w http.ResponseWriter, r *http.Request) {
 	fmt.Fprintf(w, 
 		"<h1>Fancy Hello World Web App in Go</h1>" +
 		"<h2>Environment: <span style='background-color: %s'>%s</span></h2>" +
-		"<h2>Version: <span>%s</span></h2>",
-		colour, environment, version)
+		"<h2>Version: <span>%s</span></h2>" +
+		"<h2>Built using: <span>%s</span></h2>",
+		colour, environment, version, goVersion)
     log.Print("responding to /")
 }
 
