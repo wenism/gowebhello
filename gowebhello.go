@@ -11,6 +11,7 @@ import (
 // This is injected at build time
 var version = "undefined"
 var goVersion = "undefined"
+var buildTime = "undefined"
 
 // This is injected at runtime
 var environment = os.Getenv("ENVIRONMENT") 	
@@ -25,10 +26,14 @@ func handleHealth(w http.ResponseWriter, r *http.Request) {
 func handleIndex(w http.ResponseWriter, r *http.Request) {
 	fmt.Fprintf(w, 
 		"<h1>Fancy Hello World Web App in Go</h1>" +
-		"<h2>Environment: <span style='background-color: %s'>%s</span></h2>" +
-		"<h2>Version: <span>%s</span></h2>" +
-		"<h2>Built using: <span>%s</span></h2>",
-		colour, environment, version, goVersion)
+        "<br/><br/>"
+        "<ul><li>Feature 1</li><li>Feature 2</li></ul>"+
+        "<br/><br/>"
+		"<h3>Environment: <span style='background-color: %s'>%s</span></h3>" +
+		"<h3>Version: <span>%s</span></h3>" +
+		"<h3>Built using: <span>%s</span></h3>" +
+        "<h3>Built Time: <span>%s</span></h3>",
+		colour, environment, version, goVersion, buildTime)
     log.Print("responding to /")
 }
 
@@ -43,7 +48,7 @@ func setupLog() {
 func main() {
     setupLog()
     
-    log.Printf("Starting web server with ENVIRONMENT=%s COLOUR=%s CPORT=%d VERSION=%s", environment, colour, cport, version)
+    log.Printf("Starting web server with ENVIRONMENT=%s COLOUR=%s CPORT=%s VERSION=%s GOVERSION=%s", environment, colour, cport, versionm buildTime)
     
 	http.HandleFunc("/health", handleHealth)
 	http.HandleFunc("/", handleIndex)
