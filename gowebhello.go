@@ -26,9 +26,9 @@ func handleHealth(w http.ResponseWriter, r *http.Request) {
 func handleIndex(w http.ResponseWriter, r *http.Request) {
 	fmt.Fprintf(w, 
 		"<h1>Fancy Hello World Web App in Go</h1>" +
-        "<br/><br/>"
+        "<br/><br/>" +
         "<ul><li>Feature 1</li><li>Feature 2</li></ul>"+
-        "<br/><br/>"
+        "<br/><br/>" +
 		"<h3>Environment: <span style='background-color: %s'>%s</span></h3>" +
 		"<h3>Version: <span>%s</span></h3>" +
 		"<h3>Built using: <span>%s</span></h3>" +
@@ -48,7 +48,7 @@ func setupLog() {
 func main() {
     setupLog()
     
-    log.Printf("Starting web server with ENVIRONMENT=%s COLOUR=%s CPORT=%s VERSION=%s GOVERSION=%s", environment, colour, cport, versionm buildTime)
+    log.Printf("Starting web server with ENVIRONMENT=%s COLOUR=%s CPORT=%s VERSION=%s GOVERSION=%s", environment, colour, cport, version, buildTime)
     
 	http.HandleFunc("/health", handleHealth)
 	http.HandleFunc("/", handleIndex)
