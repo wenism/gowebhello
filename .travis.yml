@@ -12,7 +12,7 @@ script:
   - export GOVERSION=`go version`
   - echo VERSION is $VERSION
   - echo GOVERSION is $GOVERSION
-  - CGO_ENABLED=0 GOOS=linux go build -a -ldflags "-X main.version=$VERSION -X main.goVersion=1234" -o gowebhello gowebhello.go
+  - CGO_ENABLED=0 GOOS=linux go build -a -ldflags "-X main.version=$VERSION -X main.goVersion='$GOVERSION'" -o gowebhello gowebhello.go
   - docker build -t wenism/gowebhello:$VERSION .
   - docker images
   - docker login -u="$DOCKER_USERNAME" -p="$DOCKER_PASSWORD"
