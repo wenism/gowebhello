@@ -15,4 +15,3 @@ script:
   - docker images
   - docker login -u="$DOCKER_USERNAME" -p="$DOCKER_PASSWORD"
   - docker push wenism/gowebhello:$VERSION
-  - echo Done
