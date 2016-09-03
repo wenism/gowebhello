@@ -41,6 +41,8 @@ func setupLog() {
 func main() {
     setupLog()
     
+    log.Printf("Starting web server with ENVIRONMENT=%s COLOUR=%s CPORT=%d VERSION=%s", environment, colour, cport, version)
+    
 	http.HandleFunc("/health", handleHealth)
 	http.HandleFunc("/", handleIndex)
 
