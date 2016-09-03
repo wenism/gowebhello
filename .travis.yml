@@ -11,7 +11,7 @@ script:
   - export VERSION=`git describe --tag --long`
   - echo VERSION is $VERSION
   - export GOVERSION=`go version | awk '{print $3}'`
-  - export BUILDTIME=`TZ=Australia/Sydney date +%Y-%m-%d-%H-%M`
+  - export BUILDTIME=`TZ=Australia/Sydney date +%Y-%m-%d-%H%M`
   - echo $GOVERSION
   - echo $BUILDTIME
   - CGO_ENABLED=0 GOOS=linux go build -a -ldflags "-X main.version=$VERSION -X main.goVersion=$GOVERSION -X main.buildTime=$BUILDTIME" -o gowebhello gowebhello.go
