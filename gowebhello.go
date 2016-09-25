@@ -41,7 +41,7 @@ func getModel() *Model {
     return &Model{Environment: environment,
 		AppVersion: AppVersion,
 	    BuiltOn: BuiltOn,
-	    BuildUsing: BuildUsing,
+	    BuiltUsing: BuiltUsing,
 	    ContainerEngineVersion: containerEngineVersion,
 	    OperatingSystem: operatingSystem}
 }
