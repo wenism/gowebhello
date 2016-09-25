@@ -11,12 +11,12 @@ services:
 before_install:  
   - export APP_VERSION=`git describe --tag --long`
   - export BUILT_USING=`go version | awk '{print $3}'`
-  - export BUILT_ON=`TZ=Australia/Sydney date +"%d/%m/%Y %T"`
+  - export BUILT_ON=`TZ=Australia/Sydney date +"%d/%m/%Y-%T"`
   - echo $APP_VERSION - $BUILT_ON - $BUILT_USING
   
 script: 
   - go test .
-  - CGO_ENABLED=0 GOOS=linux go build -a -ldflags "-X main.AppVersion=111 -X main.BuiltUsing=222 -X main.BuiltOn=333" -o gowebhello gowebhello.go
+  - CGO_ENABLED=0 GOOS=linux go build -a -ldflags "-X main.AppVersion=$APP_VERSION -X main.BuiltUsing=$BUILT_USING -X main.BuiltOn=$BUILT_ON" -o gowebhello gowebhello.go
 
 after_success:  
   - docker build -t wenism/gowebhello:$APP_VERSION .
