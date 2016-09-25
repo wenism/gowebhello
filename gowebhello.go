@@ -6,7 +6,7 @@ import (
     "log/syslog"
 	"os"
 	"net/http"
-    "strings" 
+    "strings"
 )
 
 // This is injected at build time
