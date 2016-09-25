@@ -1,0 +1,18 @@
+<title>gowebhello: {{.Environment}}</title>
+<style>
+  tr:nth-child(even){background-color: #f2f2f2}
+  td:nth-child(1) {font-weight:bold}
+</style>
+<h1>Hello Web App in Go</h1>
+<ul>
+  <li>Feature A</li>
+</ul>
+<br/>
+<table width="480px" style="border: 1px solid grey">
+  <tr><td>Environment</td><td>$ENVIRONMENT</td></tr>
+  <tr><td>Application version</td><td>$APP_VERSION</td></tr>
+  <tr><td>Built on</td><td>$BUILT_ON</td></tr>
+  <tr><td>Built using</td><td>$BUILT_USING</td></tr>
+  <tr><td>Container Engine</td><td>$CONTAINER_ENGINE_VERSION</td></tr>
+  <tr><td>OS</td><td>$OS</td></tr>
+</table>

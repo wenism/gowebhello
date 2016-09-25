@@ -2,39 +2,44 @@ package main
 
 import (
 	"net/http"
-	"fmt"
 	"os"
     "log"
     "log/syslog"
+    "html/template"
+    "strings"
 )
 
 // This is injected at build time
-var version = "undefined"
-var goVersion = "undefined"
-var buildTime = "undefined"
+var AppVersion = "undefined"
+var BuiltOn = "undefined"
+var BuiltUsing = "undefined"
 
 // This is injected at runtime
-var environment = os.Getenv("ENVIRONMENT") 	
-var colour = os.Getenv("COLOUR") 
-var cport = os.Getenv("CPORT") 
+var environment = os.Getenv("ENVIRONMENT") 
+var containerEngineVersion = os.Getenv("CONTAINER_ENGINE_VERSION")
+var operatingSystem = os.Getenv("OS")
 
-func handleHealth(w http.ResponseWriter, r *http.Request) {
-	fmt.Fprintf(w, "Healthy")
-    log.Print("responding to /health")
+var templates = template.Must(template.ParseFiles("hello.template.html"))
+
+type Model struct {
+    Environment string
+}
+
+func renderTemplate(w http.ResponseWriter, tmpl string, m *Model) {
+    err := templates.ExecuteTemplate(w, tmpl+".template.html", m)
+    if err != nil {
+        http.Error(w, err.Error(), http.StatusInternalServerError)
+    }
+}
+
+func getModel() (*Model) {
+    return &Model{Environment: environment}
 }
 
 func handleIndex(w http.ResponseWriter, r *http.Request) {
-	fmt.Fprintf(w, 
-		"<h1>Fancy Hello World Web App in Go</h1>" +
-        "<br/><br/>" +
-        "<ul><li>Feature 1</li><li>Feature 2</li></ul>"+
-        "<br/><br/>" +
-		"<h3>Environment: <span style='background-color: %s'>%s</span></h3>" +
-		"<h3>Version: <span>%s</span></h3>" +
-		"<h3>Built using: <span>%s</span></h3>" +
-        "<h3>Built Time: <span>%s</span></h3>",
-		colour, environment, version, goVersion, buildTime)
-    log.Print("responding to /")
+	renderTemplate(w, "hello", getModel())
+	
+    log.Print("responding to / request from " + strings.Split(r.RemoteAddr,":")[0])
 }
 
 func setupLog() {
@@ -48,10 +53,9 @@ func setupLog() {
 func main() {
     setupLog()
     
-    log.Printf("Starting web server with ENVIRONMENT=%s COLOUR=%s CPORT=%s VERSION=%s GOVERSION=%s", environment, colour, cport, version, buildTime)
+    log.Printf("Starting application version %s on %s environment", AppVersion, environment)
     
-	http.HandleFunc("/health", handleHealth)
 	http.HandleFunc("/", handleIndex)
 
-	http.ListenAndServe(":"+cport, nil)
+	http.ListenAndServe(":9999", nil)
 }

@@ -1,21 +1,24 @@
 language: go
+
 sudo: required
+
 go:
   - 1.6
   
 services:
   - docker
+
+before_install:  
+  - export APP_VERSION=`git describe --tag --long`
+  - export BUILT_USING=`go version | awk '{print $3}'`
+  - export BUILT_ON=`TZ=Australia/Sydney date +%Y-%m-%d-%H%M`
+  - echo $APP_VERSION - $BUILT_ON - $BUILT_USING
   
 script: 
   - go test .
-  - export VERSION=`git describe --tag --long`
-  - echo VERSION is $VERSION
-  - export GOVERSION=`go version | awk '{print $3}'`
-  - export BUILDTIME=`TZ=Australia/Sydney date +%Y-%m-%d-%H%M`
-  - echo $GOVERSION
-  - echo $BUILDTIME
-  - CGO_ENABLED=0 GOOS=linux go build -a -ldflags "-X main.version=$VERSION -X main.goVersion=$GOVERSION -X main.buildTime=$BUILDTIME" -o gowebhello gowebhello.go
+  - CGO_ENABLED=0 GOOS=linux go build -a -ldflags "-X main.AppVersion=$APP_VERSION -X main.BuiltUsing=$BUILT_USING -X main.BuiltOn=$BUILT_ON" -o gowebhello gowebhello.go
+
+after_success:  
   - docker build -t wenism/gowebhello:$VERSION .
-  - docker images
   - docker login -u="$DOCKER_USERNAME" -p="$DOCKER_PASSWORD"
   - docker push wenism/gowebhello:$VERSION
