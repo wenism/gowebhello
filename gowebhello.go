@@ -23,6 +23,11 @@ var templates = template.Must(template.ParseFiles("hello.template.html"))
 
 type Model struct {
     Environment string
+    AppVersion string
+    BuiltOn string
+    BuiltUsing string
+    ContainerEngineVersion string
+    OperatingSystem string
 }
 
 func renderTemplate(w http.ResponseWriter, tmpl string, m *Model) {
@@ -33,7 +38,12 @@ func renderTemplate(w http.ResponseWriter, tmpl string, m *Model) {
 }
 
 func getModel() *Model {
-    return &Model{Environment: environment}
+    return &Model{Environment: environment,
+		AppVersion: AppVersion,
+	    BuiltOn: BuiltOn,
+	    BuildUsing: BuildUsing,
+	    ContainerEngineVersion: containerEngineVersion,
+	    OperatingSystem: operatingSystem}
 }
 
 func handleIndex(w http.ResponseWriter, r *http.Request) {
