@@ -1,11 +1,11 @@
 package main
 
 import (
-	"net/http"
-	"os"
+    "html/template"
     "log"
     "log/syslog"
-    "html/template"
+	"os"
+	"net/http"
     "strings"
 )
 
@@ -32,7 +32,7 @@ func renderTemplate(w http.ResponseWriter, tmpl string, m *Model) {
     }
 }
 
-func getModel() (*Model) {
+func getModel() *Model {
     return &Model{Environment: environment}
 }
 
