@@ -16,7 +16,7 @@ before_install:
   
 script: 
   - go test .
-  - CGO_ENABLED=0 GOOS=linux go build -a -ldflags "-X main.AppVersion=$APP_VERSION -X main.BuiltUsing=$BUILT_USING -X main.BuiltOn=$BUILT_ON" -o gowebhello gowebhello.go
+  - CGO_ENABLED=0 GOOS=linux go build -a -ldflags "-X main.AppVersion=111 -X main.BuiltUsing=222 -X main.BuiltOn=333" -o gowebhello gowebhello.go
 
 after_success:  
   - docker build -t wenism/gowebhello:$APP_VERSION .
