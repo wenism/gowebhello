@@ -4,8 +4,8 @@ import (
     "html/template"
     "log"
     "log/syslog"
-	"os"
-	"net/http"
+    "os"
+    "net/http"
     "strings"
 )
 
@@ -18,6 +18,7 @@ var BuiltUsing = "undefined"
 var environment = os.Getenv("ENVIRONMENT") 
 var containerEngineVersion = os.Getenv("CONTAINER_ENGINE_VERSION")
 var operatingSystem = os.Getenv("OS")
+var cloudProvider = os.Getenv("CLOUD_PROVIDER")
 
 var templates = template.Must(template.ParseFiles("hello.template.html"))
 
@@ -28,6 +29,7 @@ type Model struct {
     BuiltUsing string
     ContainerEngineVersion string
     OperatingSystem string
+    CloudProvider string
 }
 
 func renderTemplate(w http.ResponseWriter, tmpl string, m *Model) {
@@ -43,7 +45,8 @@ func getModel() *Model {
 	    BuiltOn: BuiltOn,
 	    BuiltUsing: BuiltUsing,
 	    ContainerEngineVersion: containerEngineVersion,
-	    OperatingSystem: operatingSystem}
+	    OperatingSystem: operatingSystem,
+      CloudProvider: cloudProvider}
 }
 
 func handleIndex(w http.ResponseWriter, r *http.Request) {
